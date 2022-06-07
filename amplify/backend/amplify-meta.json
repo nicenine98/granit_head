@@ -1,0 +1,15 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-granit-dev-20334-authRole",
+      "UnauthRoleArn": "arn:aws:iam::825612413525:role/amplify-granit-dev-20334-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::825612413525:role/amplify-granit-dev-20334-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-granit-dev-20334-deployment",
+      "UnauthRoleName": "amplify-granit-dev-20334-unauthRole",
+      "StackName": "amplify-granit-dev-20334",
+      "StackId": "arn:aws:cloudformation:us-east-1:825612413525:stack/amplify-granit-dev-20334/5605b150-e46b-11ec-89c9-0ac9a7b2cca3",
+      "AmplifyAppId": "d28valfqw45v35"
+    }
+  }
+}
