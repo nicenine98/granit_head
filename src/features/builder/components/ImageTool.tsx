@@ -1,31 +1,40 @@
-import React from 'react';
-import { Canvas } from 'react-three-fiber';
-import { editable as e, configure } from 'react-three-editable';
+import { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { Sky, Environment } from "@react-three/drei";
+import Model from './Model';
+import Controls from "./Controls";
+import model1 from "../../../assets/3d/Number 3 (Big).gltf";
+import model2 from "../../../assets/3d/Lantern 1.gltf";
+import model3 from '../../../assets/3d/number 14.gltf';
 
-const bind = configure({
-  // Enables persistence in development so your edits aren't discarded when you close the browser window
-  enablePersistence: true,
-  // Useful if you use r3e in multiple projects
-  localStorageNamespace: 'Example',
-});
+const ImageTool = ({
+  env = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/evening_road_01_2k.hdr",
+}) => {
+  const list = [
+    {
+      url: model1,
+    },
+    {
+      url: model2,
+    },
+  ];
 
-export function ImageTool() {
   return (
-    <Canvas onCreated={bind()}>
-      <ambientLight intensity={0.5} />
-      {/* Mark objects as editable. */}
-      {/* Properties in the code are used as initial values and reset points in the editor. */}
-      <e.spotLight
-        position={[10, 10, 10]}
-        angle={0.15}
-        penumbra={1}
-        uniqueName="Spotlight"
-      />
-      <e.pointLight uniqueName="PointLight" />
-      <e.mesh uniqueName="Box">
-        <boxBufferGeometry />
-        <meshStandardMaterial color="orange" />
-      </e.mesh>
+    <Canvas camera={{ position: [30, -10, 80], fov: 50 }} dpr={[1, 2]}>
+      <Sky sunPosition={[100, 20, 100]} />
+      <ambientLight intensity={0.3} />
+      <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+      <Suspense fallback={null}>
+        <Environment preset="city" />
+        {list.map(({ url }, i) => {
+          return (
+            <Model url={url} key={i} position={[1, -20, -20]} scale={40} />
+          );
+        })}
+      </Suspense>
+      <Controls />
     </Canvas>
   );
-}
+};
+
+export default ImageTool;

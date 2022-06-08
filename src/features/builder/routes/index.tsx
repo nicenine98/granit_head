@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { ImageTool } from '../components/ImageTool';
+import ImageTool from '../components/ImageTool';
 
 export const Builder = () => {
   return (
