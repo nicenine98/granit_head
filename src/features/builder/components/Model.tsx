@@ -1,20 +1,26 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useFrame } from '@react-three/fiber'
 import { useCursor, useGLTF } from '@react-three/drei';
 import { useModelStore } from '../../../stores/models';
-
-interface ModelProps {
-    url: string;
-    position?: [x: number, y: number, z: number];
-    rotation?: [x: number, y: number, z: number];
-    scale?: number;
-}
+import { usePropertyStore, Property } from '../../../stores/properties';
 
 const modes = ["translate", "rotate", "scale"];
 
-const Model = (props: ModelProps) => {
+const Model = ({ property }: {property: Property}) => {
     const { mode, setMode, setTarget } = useModelStore();
-    const { scene }: any = useGLTF(props.url);
+    const { updateProperty } = usePropertyStore();
+    const { scene }: any = useGLTF(property.url);
     const [hovered, setHovered] = useState(false);
+    const model = useRef(null);
+
+    useFrame(() => {
+      updateProperty({
+        ...property,
+        position: model.current.position,
+        rotation: model.current.rotation,
+        scale: model.current.scale
+      })
+    })
     useCursor(hovered);
   
     const handleClick = (e: any) => {
@@ -31,13 +37,16 @@ const Model = (props: ModelProps) => {
       <group>
         <primitive
           object={scene}
+          ref={model}
           onClick={handleClick}
           onContextMenu={handleContext}
           onPointerMissed={(e: any) =>
             e.type === "click" && (setTarget(null), setMode(0))
           }
-          onPointerOver={(e: any) => (e.stopPropagation(), setHovered(true))}
-          scale={20}
+          onPointerOver={(e: any) => {e.stopPropagation(); setHovered(true)}}
+          position={property.position}
+          rotation={property.rotation}
+          scale={property.scale}
         />
       </group>
     );

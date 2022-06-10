@@ -17,7 +17,7 @@ export type DrawerProps = {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  renderFooter: () => React.ReactNode;
+  renderFooter?: () => React.ReactNode;
   size?: keyof typeof sizes;
 };
 
@@ -52,7 +52,7 @@ export const Drawer = ({
             >
               <div className={clsx('w-screen', sizes[size])}>
                 <div className="h-full divide-y divide-gray-200 flex flex-col bg-white shadow-xl">
-                  <div className="min-h-0 flex-1 flex flex-col py-6 overflow-y-scroll">
+                  <div className="min-h-0 flex-1 flex flex-col py-6 overflow-y-auto">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium text-gray-900">
@@ -71,9 +71,9 @@ export const Drawer = ({
                     </div>
                     <div className="mt-6 relative flex-1 px-4 sm:px-6">{children}</div>
                   </div>
-                  <div className="flex-shrink-0 px-4 py-4 flex justify-end space-x-2">
+                  { renderFooter && <div className="flex-shrink-0 px-4 py-4 flex justify-end space-x-2">
                     {renderFooter()}
-                  </div>
+                  </div> }
                 </div>
               </div>
             </Transition.Child>

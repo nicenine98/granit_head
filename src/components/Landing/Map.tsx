@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import MarkerClusterer from "@googlemaps/markerclustererplus";
+import { MAP_KEY } from "../../config";
 
 const render = (status: Status): ReactElement => {
     if (status === Status.LOADING) return <h3>{status} ..</h3>;
@@ -11,7 +12,7 @@ const render = (status: Status): ReactElement => {
 function Map() {
     return (
         <div>
-            <Wrapper apiKey={"AIzaSyA4er_G1_VwKinaYGlPX3gHiHGxT1EO0-k"} render={render}>
+            <Wrapper apiKey={MAP_KEY} render={render}>
                 <MyMapComponent />
             </Wrapper>
             <div style={{ height: "500px" }} id="map"></div>
